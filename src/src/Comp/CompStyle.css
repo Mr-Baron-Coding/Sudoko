@@ -1,0 +1,23 @@
+.diffButtons {
+    width: 5rem;
+    height: 2rem;
+    font-family: 'Mikes_Font';
+    src:url('../../../assets/Lato/Lato-Bold.ttf') format('truetype');
+    font-size: large;
+    font-weight: bold;
+    background: none;
+    border: none;
+
+}
+.diffButtons:hover {
+    color: grey;
+}
+.diffButtons:active {
+    color: rgb(71, 71, 71);
+}
+
+@font-face {
+    font-family: 'Mikes_Font';
+    src:url('../../../assets/Lato/Lato-Bold.ttf') format('truetype');
+  
+  }

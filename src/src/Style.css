@@ -1,0 +1,62 @@
+table {
+    /* border: 1px solid black; */
+    /* border-collapse: collapse; */
+    height: 20rem;
+    width: 20rem;
+    margin: auto;
+
+}
+
+tbody tr td input {
+    /* border: 2px solid black; */
+    width: 3rem;
+    height: 3rem;
+    /* outline: none; */
+    padding: auto;
+
+
+}
+
+td[class*='tr_2'], td[class*='tr_5'] {
+    border-bottom: 0.15rem solid rgb(120, 120, 120);
+    /* background-color: black; */
+}
+td[class$='3'], td[class$='6']
+ {
+    border-left: 0.15rem solid rgb(121, 120, 120);
+}
+
+input {
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: large;
+    opacity: 0.5;
+    border-radius: 5%;
+    border: none;
+    outline: none;
+
+} 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.container {
+    position: fixed; /* Sit on top of the page content */
+    /* display: none; Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+}
+
+.scoreInputName {
+    background-color: black;
+    color: white;
+}
