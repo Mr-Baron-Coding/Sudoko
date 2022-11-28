@@ -1,19 +1,7 @@
 .App {
   text-align: center;
-  /* font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ; */
   background-color: rgb(24, 24, 24);
   height: 100%;
   color: white;
 
-}
-
-.gridContainer {
-  grid-template-areas: 
-  'top top top'
-  'bottom bottom bottom';
-  border: 3px solid white;
-
-}
-.hello {
-  grid-area: top;
 }

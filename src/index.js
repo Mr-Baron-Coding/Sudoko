@@ -10,6 +10,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import stopwatchSlice from './Sudoko/features/stopwatchSlice.js';
 import messageSlice from './Sudoko/features/messageSlice';
 import tableSlice from './Sudoko/features/tableSlice';
+import scoreboardSlice from './Sudoko/features/scoreboardSlice';
 import mobileSlice from './Sudoko/features/mobileSlice';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -19,8 +20,8 @@ const store = configureStore({
       stopwatch: stopwatchSlice,
       messages: messageSlice,
       table: tableSlice,
-      mobile: mobileSlice
-      // scoreboard: scoreboardSlice,
+      mobile: mobileSlice,
+      scoreboard: scoreboardSlice
   }
 });
 

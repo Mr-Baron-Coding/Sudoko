@@ -2,6 +2,8 @@
 @media screen and ( max-width: 550px ) {
     .buttonContainer {
         height: 100%;
+        border: 3px solid white;
+        /* margin: 20px 0 20px 0; */
     }
     /* top row styling */
     .topRowButtonsStyle {
@@ -65,6 +67,7 @@
         display: grid;
         height: 99vw;
         width: 99vw;
+        margin: auto;
     }
     .emptyTableStyle>.rows {
         display: grid;
@@ -77,6 +80,7 @@
 
     /* ready to play board */
     .gameTableStyle {
+        margin: auto;
         background-color: rgba(27, 27, 27, 0.123);
         opacity: 0.8;
         height: 99vw;
@@ -164,8 +168,9 @@
     }
     /* stopwatch styling */
     .numbers {
+        margin-top: 40px;
         display: flex;
-        gap: 4px;
+        gap: 5px;
         justify-content: center;
         align-items: flex-end;
     }
@@ -178,7 +183,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        transition: all 2s linear;
+        /* transition: all 2s linear; */
 
     }
     .topRowButtonsStyle { 
@@ -278,7 +283,7 @@
         height: 500px;
         width: 500px;
         display: grid;
-        background-image: linear-gradient(15deg, rgba(0, 0, 0, 0.116), rgba(128, 128, 128, 0.26));
+        background-color: rgb(94, 94, 94);
         
     }
     .emptyTableStyle>.rows {
@@ -292,28 +297,31 @@
 
     /* full table */
     .gameTableStyle {
+        background-color: rgb(20, 20, 20);
         opacity: 0.8;
         height: 500px;
         width: 500px;
         display: grid;
         grid-template-rows: repeat(9, 1fr);
         z-index: 1;
+        gap: 4px;
 
     }
     .gameTableStyle>.rows {
         display: grid;
         justify-content: center;
         grid-template-columns: repeat(9, 1fr);
+        gap: 4px;
 
     }
     .gameTableStyle>.rows>.cells {
-        border: 1px solid black;
-        background-color: rgba(134, 132, 132, 0.212);
+        /* border: 1px solid black; */
+        background-color: rgba(214, 214, 214, 0.212);
         display: flex;
         justify-content: center;
         align-items: center;
     
-    }
+    }    
     .elementDiv {
         width: 90%;
         height: 90%;

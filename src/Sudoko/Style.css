@@ -6,6 +6,8 @@
         display: flex;
         flex-direction: column;
         position: relative;
+        padding-top: 10px;
+        margin: auto;
         
     }
     /* game face */
@@ -102,6 +104,7 @@
 @media only screen and ( min-width: 1001px ) {
     /* main container */
     .sudokoCompStyle {
+        border: 3px solid red;
         height: 90%;
         display: grid;
         position: relative;
@@ -122,6 +125,7 @@
     }
     .startStyle {
         grid-area: mainButt;
+        font-size: 1.5rem;
     
     }
     .bottomStyle {
@@ -147,31 +151,59 @@
         align-items: flex-end;
     }
     /* overflow styling */
+    .lineOne {
+        background-color: red;
+        width: 100%;
+        height: 4px;
+        position: absolute;
+        top: 33%;
+    }
+    .lineTwo {
+        background-color: red;
+        width: 100%;
+        height: 4px;
+        position: absolute;
+        top: 66.5%;
+    }
+    .lineThree {
+        background-color: red;
+        width: 4px;
+        height: 100%;
+        position: absolute;
+        left: 33%;
+    }
+    .lineFour {
+        background-color: red;
+        width: 4px;
+        height: 100%;
+        position: absolute;
+        left: 66.5%;
+    }
     .overflowStyle {
         position: absolute;
-        display: grid;
+        /* display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: repeat(3, 1fr);
-        z-index: 0;
+        z-index: 0; */
         height: 500px;
         width: 500px;
     }
-    .overflowStyle>div {
+    /* .overflowStyle>div {
         width: 100%;
         height: 100%;
-    }
+    } */
     div[class*='row3'], div[class*='row2'] {
-        border-top: 2px solid black;
+        border-top: 3px solid red;
     }
-    div[class*='row1'], div[class*='row2'] {
-        border-bottom: 2px solid black;
-    }
+    /* div[class*='row1'], div[class*='row2'] {
+        border-bottom: 2px solid red;
+    } */
     div[class*='col1'], div[class*='col2'] {
-        border-right: 2px solid black;
+        border-right: 3px solid red;
     }
-    div[class*='col2'], div[class*='col3'] {
-        border-left: 2px solid black;
-    }
+    /* div[class*='col2'], div[class*='col3'] {
+        border-left: 2px solid red;
+    } */
 
     /* end game message */
     .messContainer {

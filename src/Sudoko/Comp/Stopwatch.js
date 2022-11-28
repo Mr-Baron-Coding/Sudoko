@@ -32,7 +32,7 @@ export default function Stopwatch() {
     return () => {
       clearInterval(interval);
     }
-  }, [isTimeRunning, gameShown, elapsedTime, time, dispatch]);
+  }, [isTimeRunning, gameShown]);
     
   return (
     <div className="numbers">

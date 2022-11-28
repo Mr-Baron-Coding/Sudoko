@@ -193,18 +193,18 @@ export default function GameCalc() {
     // change the game difficulty
     const gameDiff = (xxx) => {        
         let ranRow, ranCol = 0;
-        // let local = ''; 
         let arr = [];
-        // let b = [];
         for ( let i=0;i<xxx;i++ ) {
             ranRow = Math.floor((Math.random() * 9) + 1) - 1;
             ranCol = Math.floor((Math.random() * 9) + 1) - 1;
-            let local = `${ranRow}${ranCol}`;
-            let b = (arr.filter((xxx) => xxx === local));
-            arr.push(local);
-            if ( b === local ) {
-                arr.pop();
+            // let local = `${ranRow}${ranCol}`;
+            let local = ranRow +''+ ranCol;
+            let b = (arr.filter((num) => num === local));
+            if ( b.length !== 0 ) {
                 i--;
+            }
+            else { 
+                arr.push(local);
             }
         }
         showNumArr = arr;
@@ -409,7 +409,7 @@ export default function GameCalc() {
                                 { row.map((element,z) => {
                                     return (
                                         <div key={ `td_${row  + z}` } className={ `cells cell_${i}${z} r${i} c${z}` }>    
-                                                { (showArr.filter((xxx) => xxx === `${i}${z}`) === `${i}${z}`)
+                                                { (showArr.filter((xxx) => xxx == `${i}${z}`) == `${i}${z}`)
                                                 ?  <div className='elementDiv'>{ element }</div>  
                                                 : !isMobile ? <input    
                                                         className={ `${i}${z} inputStyle` }  
@@ -457,7 +457,7 @@ export default function GameCalc() {
         let user = e.target.value.slice(0, 1);
         if ( user.match(numbers) !== null ) {
             uInput[i][j] = parseInt(user);
-            setUserInput(uInput => [...uInput]);                   // !!!! this is how you update an array hook MF !!!!
+            setUserInput(uInput => [...uInput]);                   // !!!! this is how you update an array hook !!!!
             if ( fullTableShow ) { checkEveryInput(); }
         }
         else {
