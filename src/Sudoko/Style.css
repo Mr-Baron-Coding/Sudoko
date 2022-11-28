@@ -20,12 +20,12 @@
     }
     .bottomStyle {
         background-color: rgb(41, 40, 40);
-        position: absolute;        
+        position: fixed;        
         z-index: 2;
         border: 3px solid white;
-        border-radius: 10px;
-        width: 100%;
-        padding: 10px 0 10px 0;
+        width: 99%;
+        margin: auto;
+        height: 10%;
     }
     .timerStyle {
         flex: 1;

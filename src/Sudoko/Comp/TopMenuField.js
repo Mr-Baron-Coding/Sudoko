@@ -17,7 +17,7 @@ export default function TopMenuField() {
 
 
     const topMenuButtons = [
-        { text: 'Start Game', id : 1 },
+        { text: !fullTableShow ? 'Start Game' : 'New Game', id : 1 },
         { text: 'Auto fill', id : 2 },
         { text: 'SuperEasy', id : 3 }
         // { text: 'Submit', id : 4 }, 
@@ -29,7 +29,7 @@ export default function TopMenuField() {
         { text: 'Hard', id: 3, number: Math.floor(Math.random() * (16 - 14 + 1) ) + 14 }
     ];
 
-    let easyColor = isEasyMode ? 'pink' : 'black';
+    let easyColor = isEasyMode ? 'pink' : 'red';
 
     // handling different functions
     const mainFunction = (index) => {

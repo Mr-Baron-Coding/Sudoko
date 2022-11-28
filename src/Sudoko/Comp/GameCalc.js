@@ -442,7 +442,7 @@ export default function GameCalc() {
         }         
         else {
             if (isEasyMode && parseInt(userInput[i][z]) !== gameTable[i][z]) {
-                return 'black'
+                return 'pink'
             } else { return 'red' };
         }                 
         

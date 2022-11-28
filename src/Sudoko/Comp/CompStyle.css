@@ -22,12 +22,12 @@
     }
     /* this is the 'are you sure' pop up messages styling */
     .startANewContainer {  
-        height: 100%;
-        width: 100%;
+        /* height: 100%; */
+        /* width: 80%; */
         display: grid;
         grid-template: 
-        'sentence sentence sentence sentence sentence sentence'
-        '... ... button1 button2 ... ... ';
+        'sentence sentence sentence sentence'
+        '... button1 button2 ...';
         align-content: center;
         gap: 10px;
     }

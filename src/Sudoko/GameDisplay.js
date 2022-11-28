@@ -30,7 +30,7 @@ export default function GameDisplay() {
       <div className='gameContainer'><GameCalc />
         <div className='overflowStyle'><TableLineStyling /></div>
       </div>
-      { showGame && isMobile ? <div className='keyboardStyle'><Keyboard /></div> : null }
+      { showGame && isMobile && !userMess ? <div className='keyboardStyle'><Keyboard /></div> : null }
     </div>
   )
 };
