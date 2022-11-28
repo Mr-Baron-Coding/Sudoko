@@ -1,0 +1,338 @@
+/* cellphone screen */
+@media screen and ( max-width: 550px ) {
+    .buttonContainer {
+        height: 100%;
+    }
+    /* top row styling */
+    .topRowButtonsStyle {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+    .diffButtonsContainer {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+    }
+    /* this is the 'are you sure' pop up messages styling */
+    .startANewContainer {  
+        height: 100%;
+        width: 100%;
+        display: grid;
+        grid-template: 
+        'sentence sentence sentence sentence sentence sentence'
+        '... ... button1 button2 ... ... ';
+        align-content: center;
+        gap: 10px;
+    }
+    .questionStyle {        
+        grid-area: sentence;
+    }
+    .blinkStyle {
+        font-size: 1.2rem;
+        padding-left: 1%;
+        animation-name: blink;
+        animation-duration: 1.5s;
+        animation-iteration-count: infinite;
+    }
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { color: rgba(255, 0, 0, 0.486); }
+        100% { opacity: 1; }
+    }
+    .clickDivOne {
+        border: 3px solid black;
+        border-radius: 8px;
+
+        grid-area: button1;
+        
+    }
+    .clickDivTwo { 
+        border: 3px solid black;
+        border-radius: 8px;
+
+        grid-area: button2;
+
+    }
+
+    /* game borad styling */
+    /* empty board */
+    .emptyTableStyle {
+        display: grid;
+        height: 99vw;
+        width: 99vw;
+    }
+    .emptyTableStyle>.rows {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+
+    }
+    .emptyTableStyle>.rows>.cells {
+        border: 0.1px solid black;
+    }
+
+    /* ready to play board */
+    .gameTableStyle {
+        background-color: rgba(27, 27, 27, 0.123);
+        opacity: 0.8;
+        height: 99vw;
+        width: 99vw;
+        display: grid;
+        grid-template-rows: repeat(9, 1fr);
+        z-index: 1;
+        gap: 1px;
+
+    }
+    .gameTableStyle>.rows {
+        display: grid;
+        justify-content: center;
+        grid-template-columns: repeat(9, 1fr);
+        gap: 1px;
+
+    }
+    .gameTableStyle>.rows>.cells {
+        /* border: 1px solid rgb(114, 114, 114); */
+        background-color: rgba(134, 132, 132, 0.212);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+    }
+    div[class*='c2'], div[class*='c5'] {
+        border-right: 2px solid white;     
+    }
+    div[class*='r2'], div[class*='r5'] {
+        border-bottom: 2px solid white;
+    }
+    .elementDiv {
+        width: 90%;
+        height: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+    }
+    .inputStyle {
+        border: none;
+        outline: none;
+        background: none;
+        width: 90%;
+        height: 90%;
+        font-size: larger;
+        font-weight: bolder;
+        text-align: center;
+        
+    }
+    .mobileInPut {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: red;
+        height: 95%;
+        width: 95%;
+    }
+    .active { 
+        border: 3px solid red;
+        border-radius: 3px;
+        height: 95%;
+        width: 95%;
+        animation-name: borderBlink;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+    @keyframes borderBlink {
+        0% { border: 3px solid red; }
+        50% { border: 3px solid rgba(255, 0, 0, 0.267); }
+        100% { border: 3px solid red; }
+    }
+    /* keyboard styling */
+    .keyboardContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .keys {
+        border: 2px solid red;
+        border-radius: 5px;
+        color: red;
+        padding: 5px 10px 5px 10px;
+    }
+    /* stopwatch styling */
+    .numbers {
+        display: flex;
+        gap: 4px;
+        justify-content: center;
+        align-items: flex-end;
+    }
+}
+
+/* large screens */
+@media only screen and ( min-width: 1001px ) {
+    .buttonContainer {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        transition: all 2s linear;
+
+    }
+    .topRowButtonsStyle { 
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10%;
+        
+    }
+    .diffButtonsContainer { 
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10%;
+
+    }
+    .diffButtons:hover {
+        color: grey;
+    }
+    .diffButtons:active {
+        color: rgb(71, 71, 71);
+    }
+    /* this is the 'are you sure' pop up messages styling */
+    .startANewContainer { 
+        height: 100%;
+        width: 40%;
+        display: grid;
+        grid-template: 
+        'sentence sentence sentence sentence sentence sentence'
+        '... ... button1 button2 ... ... ';
+        align-content: center;
+        gap: 10px;
+    }
+    .questionStyle {        
+        grid-area: sentence;
+    }
+    .blinkStyle {
+        font-size: 1.2rem;
+        padding-left: 1%;
+        animation-name: blink;
+        animation-duration: 1.5s;
+        animation-iteration-count: infinite;
+    }
+    @keyframes blink {
+        0% { opacity: 1; }
+        50% { color: rgba(255, 0, 0, 0.486); }
+        100% { opacity: 1; }
+    }
+    .clickDivOne {
+        border: 3px solid black;
+        border-radius: 8px;
+
+        grid-area: button1;
+        
+    }
+    .clickDivOne:hover {
+        background-color: rgba(0, 0, 0, 0.425);
+        border: 3px solid rgba(0, 0, 0, 0.274);
+        color: red;
+    }
+    .clickDivTwo { 
+        border: 3px solid black;
+        border-radius: 8px;
+
+        grid-area: button2;
+
+    }
+    .clickDivTwo:hover { 
+        color: red;
+
+    }
+
+    /* stopwatch styling */
+    .numbers {
+        display: flex;
+        gap: 4px;
+        justify-content: center;
+        align-items: flex-end;
+    }
+    /* submit button style */
+    .submitButton {
+        border: 3px solid black;
+        border-radius: 8px;
+        width: 50%;
+        
+    }
+
+    /* game borad styling */
+    /* empty board */
+    .emptyTableStyle {
+        height: 500px;
+        width: 500px;
+        display: grid;
+        background-image: linear-gradient(15deg, rgba(0, 0, 0, 0.116), rgba(128, 128, 128, 0.26));
+        
+    }
+    .emptyTableStyle>.rows {
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+
+    }
+    .emptyTableStyle>.rows>.cells {
+        border: 0.1px solid black;
+    }
+
+    /* full table */
+    .gameTableStyle {
+        opacity: 0.8;
+        height: 500px;
+        width: 500px;
+        display: grid;
+        grid-template-rows: repeat(9, 1fr);
+        z-index: 1;
+
+    }
+    .gameTableStyle>.rows {
+        display: grid;
+        justify-content: center;
+        grid-template-columns: repeat(9, 1fr);
+
+    }
+    .gameTableStyle>.rows>.cells {
+        border: 1px solid black;
+        background-color: rgba(134, 132, 132, 0.212);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+    }
+    .elementDiv {
+        width: 90%;
+        height: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: rgb(36, 36, 36);
+    }
+    .inputStyle {
+        border: none;
+        outline: none;
+        background: none;
+        width: 90%;
+        height: 90%;
+        font-size: larger;
+        font-weight: bolder;
+        text-align: center;
+        
+    }
+    
+    
+}

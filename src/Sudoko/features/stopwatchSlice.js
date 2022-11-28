@@ -9,7 +9,7 @@ export const stopwatchSlice = createSlice({
     
     reducers: {
         startWatch: (state, action) => {
-            state.running = action.payload              // start Stopwatch         
+            state.running = action.payload              // start/stop Stopwatch         
         },
         logTime: (state, action) => {
             state.savedTime = action.payload;           // save logged time     

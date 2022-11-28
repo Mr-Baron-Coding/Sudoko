@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkGame, autoFillInput, superEasy, gameWon } from '../features/tableSlice.js';
+import { checkGame, autoFillInput, isGameEnd, gameWon, mobileKeyboardPress } from '../features/tableSlice.js';
 import { startWatch, resetWatch } from '../features/stopwatchSlice.js';
+import { displayOverlayMessage, displayWinMessage, displayNotCorrect } from '../features/messageSlice.js';
 
 
-import '../Style.css';
+import './CompStyle.css';
+// import TableLineStyling from './TableLineStyling.js';
 
 export default function GameCalc() {
     const dispatch = useDispatch();
@@ -13,11 +15,12 @@ export default function GameCalc() {
     const checkUserInput = useSelector((state) => state.table.checkGame);
     const autoInput = useSelector((state) => state.table.fill);
     const isEasyMode = useSelector((state) => state.table.easyMode);
+    const isMobile = useSelector((state) => state.mobile.isMobile);
+    const keyPress = useSelector((state) => state.table.mobileKeyPress);
 
     const [gameTable, setGameTable] = useState([]);             // game table to be filled
     const [userInput, setUserInput] = useState([]);             // users input log
     const [showArr,setShowArr]  = useState([]);                 // array of display
-    const [runTime, setRunTime] = useState(false);
 
     let checkNumbers = [1,2,3,4,5,6,7,8,9];                     // global var for row check
     let temp_table = [[],[],[],[],[],[],[],[],[]];              // global var for table check
@@ -30,30 +33,87 @@ export default function GameCalc() {
     // start game 
     useEffect(() => {
         if ( numberToShow !== undefined ) {
+            // run the game with selected difficulty
             gameDiff(numberToShow);
+            // clear the game table 
             cleanTable();
+            // reset the watch
+            dispatch(resetWatch());
         } 
     
     }, [numberToShow]);
 
-    // check users input 
+    // player pressed submit ---- >>>> check users input
     useEffect(() => {
-        if ( checkUserInput === true ) {
+        if ( checkUserInput ) {
+            // stop timer 
             dispatch(startWatch(false));
-            dispatch(resetWatch());
+
+            // call check users input table
             inputVSGame();
-            // dispatch(checkGame(false));
-        }
-        if ( isEasyMode && !checkUserInput ) {
-            checkEveryInput();
+            dispatch(checkGame(false));
         }
     }, [checkUserInput]);
 
+    //  compare game board to users input
+    //  !!! add check for different combinations that work... !!! 
+    const inputVSGame = () => {
+        let counter = 0;
+        gameTable.forEach((row,rowI) => {row.forEach((cell, cellI) => {
+                if ( gameTable[rowI][cellI] === userInput[rowI][cellI] ) {
+                    return (
+                        // count correct cells 
+                        counter++
+                    )
+                };
+            
 
-    // auto fill the input
+        })});
+        // if all cells filled correctly - end game else 
+        counter === 81 ? finishGame() : continueGame();
+    };
+    // player complited the game!
+    const finishGame = () => {
+        dispatch(gameWon(true));
+        dispatch(displayOverlayMessage(true));
+        dispatch(displayWinMessage(true));
+
+    };
+    // player didn't complete game correctly .. continue game
+    const continueGame = () => {
+        dispatch(displayOverlayMessage(true));
+        dispatch(displayNotCorrect(true));
+       
+    };
+    
+    // add users mobile keyboard press
     useEffect(() => {
-        if ( autoInput === true ) {
+    //   locate active cell 
+        if ( keyPress !== 0 ) {
+            let activeCell = document.querySelector('.active');
+            let uInputLocael = [];
+            if ( activeCell !== null ) {
+                uInputLocael = userInput;
+                if ( activeCell.classList[1] === 'mobileInPut' ) { 
+                    uInputLocael[activeCell.classList[0] - 1][activeCell.classList[0] -1] = keyPress;
+                }
+                else {
+                    uInputLocael[activeCell.classList[0] - 1][activeCell.classList[1] - 1] = keyPress;
+                }
+            }
+            // add number
+            setUserInput(uInput => [...uInput]);
+            // run a check to see if any empty cells
+            checkEveryInput();
+            dispatch(mobileKeyboardPress(0)); 
+        }
+    }, [keyPress]);
+
+    // player pressed auto fill input
+    useEffect(() => {
+        if ( autoInput ) {
             autoFill();
+            dispatch(isGameEnd(true));
             dispatch(autoFillInput(false));
         }
     }, [autoInput]);
@@ -61,12 +121,12 @@ export default function GameCalc() {
     // auto fill input table - second time will fill correctly
     const autoFill = () => {
         let local = [[],[],[],[],[],[],[],[],[]];
-        userInput.map((row, rowI) => row.map((cell, cellI) => {
+        userInput.forEach((row, rowI) => row.forEach((cell, cellI) => {
             if ( userInput[rowI][cellI] === 0 ) {       // second time will fill table correctly (=
                 local[rowI][cellI] = 1;
             }
             else {
-                local[rowI][cellI] = gameTable[rowI][cellI]
+                local[rowI][cellI] = gameTable[rowI][cellI];
             }
         }))
         setUserInput(local);
@@ -74,34 +134,40 @@ export default function GameCalc() {
 
     const checkEveryInput = () => {
         // here need to get user input and cell number 
-        dispatch(superEasy(false));
-        console.log('Still LOL');
-    }
-
-    //check user imput 
-    const inputVSGame = () => {
-        let counter = 0;
-        gameTable.map((row,rowI) => {row.map((cell, cellI) => {
-            if ( gameTable[rowI][cellI] === userInput[rowI][cellI] ) {
-                return (
-                    counter++
-                )
-            }
-
-        })})
-        counter === 81 ? dispatch(gameWon(true)) : console.log('Not yet');;
-    }
+        // if ( isEasyMode ) {
+        //     gameTable.map((row,rowI) => {row.map((cell, cellI) => {
+        //         if ( gameTable[rowI][cellI] === userInput[rowI][cellI] ) {
+        //             return (
+        //                 console.log('Lol')
+        //             )
+        //         }
+    
+        //     })});
+            
+        // }
+        // else { 
+            let counter = 0;
+            userInput.forEach((row,rowI) => {row.forEach((cell, cellI) => {
+                if ( cell === 0 ) {
+                        counter++
+                }
+            })});
+        // if no emptey cells open submit option
+            if ( counter === 0 ) { dispatch(isGameEnd(true)) };  
+        // }
+        
+    };
     
     // create full game table
     const cleanTable = () => {
         let newTable = [[],[],[],[],[],[],[],[],[]];
-        let counter = 0;
+        // let counter = 0;
         for(let i=0; i<9; i++) {
             checkNumbers = [1,2,3,4,5,6,7,8,9];
             looperCounter = 0;
             for(let j=0; j<9; j++) {
                 let newCell = Math.floor((Math.random() * 9) + 1);
-                if ( insertChecker (j, i, newCell, newTable) == true ) {
+                if ( insertChecker (j, i, newCell, newTable) === true ) {
                     fillBox(j,i,newCell);
                     newTable[i][j] = newCell;
                     temp_table = newTable;
@@ -127,15 +193,16 @@ export default function GameCalc() {
     // change the game difficulty
     const gameDiff = (xxx) => {        
         let ranRow, ranCol = 0;
-        let local = ''; 
+        // let local = ''; 
         let arr = [];
+        // let b = [];
         for ( let i=0;i<xxx;i++ ) {
             ranRow = Math.floor((Math.random() * 9) + 1) - 1;
             ranCol = Math.floor((Math.random() * 9) + 1) - 1;
-            local = `${ranRow}${ranCol}`;
+            let local = `${ranRow}${ranCol}`;
             let b = (arr.filter((xxx) => xxx === local));
             arr.push(local);
-            if ( b == local ) {
+            if ( b === local ) {
                 arr.pop();
                 i--;
             }
@@ -147,7 +214,7 @@ export default function GameCalc() {
 
     // fill 3*3 box
     const fillBox = (col, row , cell) => {
-        if ( (row === 3 && boxArr[2].length == 9 || row === 6 && boxArr[2].length == 9) ) {
+        if ( ((row === 3 && boxArr[2].length === 9) || (row === 6 && boxArr[2].length === 9)) ) {
             boxArr = [[],[],[]];
         }
         if ( row < 3 ) {
@@ -183,13 +250,13 @@ export default function GameCalc() {
                 boxArr[2].push(cell);
             }
         }
-    }
+    };
 
     // start of insertion into game table 
     const insertChecker = (row, col, cell, table) => {                          
-        if ( rowPosChecker(row, col, cell, table) == true ) {                   // check if cell can be placed row
-            if ( colPosChecker(row, col, cell, table) == true) {                // check if cell can be placed col
-                if ( boxPosChecker(row, col, cell, table) == true ) {           // check if cell can be placed 3*3
+        if ( rowPosChecker(row, col, cell, table) === true ) {                   // check if cell can be placed row
+            if ( colPosChecker(row, col, cell, table) === true) {                // check if cell can be placed col
+                if ( boxPosChecker(row, col, cell, table) === true ) {           // check if cell can be placed 3*3
                     return true;        
                 }
                 else {
@@ -207,7 +274,7 @@ export default function GameCalc() {
 
     // check if cell can be placed in row
     const rowPosChecker = (row, col, cell, table) => {
-        if( checkNumbers[cell-1] == cell ) {
+        if( checkNumbers[cell-1] === cell ) {
             checkNumbers[cell-1] = 0;
             return true;
         }
@@ -243,7 +310,7 @@ export default function GameCalc() {
         if ( row === 0 || row === 3 || row === 6 ) {
             return true;
         }
-        if ( row < 3 && col < 3 || row > 2 && row < 6 && col < 3 || row > 5 && col < 3 ) { // only first 3 col box row 0-2 
+        if ( (row < 3 && col < 3) || (row > 2 && row < 6 && col < 3) || (row > 5 && col < 3) ) { // only first 3 col box row 0-2 
             arr = boxArr[0].filter((e,i) => e === cell);
             if ( arr.length === 0 ) {
                 return true;
@@ -254,7 +321,7 @@ export default function GameCalc() {
                 return false;
             }
         }
-        if ( row < 3 && col > 2 && col < 6 || row > 2 && row < 6 && col > 2 && col < 6 || row > 5 && col > 2 && col < 6 ) {
+        if ( (row < 3 && col > 2 && col < 6) || (row > 2 && row < 6 && col > 2 && col < 6) || (row > 5 && col > 2 && col < 6) ) {
             arr = boxArr[1].filter((e,i) => e === cell);
             if ( arr.length === 0 ) {
                 return true;
@@ -265,7 +332,7 @@ export default function GameCalc() {
                 return false;
             }
         }   
-        if ( row < 3 && col > 5 || row > 2 && row < 6 && col > 5 || row > 5 && col > 5 ) {
+        if ( (row < 3 && col > 5) || (row > 2 && row < 6 && col > 5) || (row > 5 && col > 5) ) {
             arr = boxArr[2].filter((e,i) => e === cell);
             if ( arr.length === 0 ) {
                 return true;
@@ -335,41 +402,50 @@ export default function GameCalc() {
     // print a full table on screen
     const tableBase = () => {
         return (
-            <table>
-                <tbody>
+            <div className='gameTableStyle'>
                     { gameTable.map((row,i) => {
                         return (
-                            <tr key={ `tr_${row + i}` } >
+                            <div className={`rows row_${ i+1 }`} key={ `tr_${row + i}` } >
                                 { row.map((element,z) => {
                                     return (
-                                        <td key={ `td_${row  + z}` } className={ `tr_${i}${z}` }>    
-                                                { (showArr.filter((xxx) => xxx === `${i}${z}`) == `${i}${z}`)
-                                                ?  element  
-                                                : <input    
-                                                        className={ `${i}${z}` }  
+                                        <div key={ `td_${row  + z}` } className={ `cells cell_${i}${z} r${i} c${z}` }>    
+                                                { (showArr.filter((xxx) => xxx === `${i}${z}`) === `${i}${z}`)
+                                                ?  <div className='elementDiv'>{ element }</div>  
+                                                : !isMobile ? <input    
+                                                        className={ `${i}${z} inputStyle` }  
                                                         value={ parseInt(userInput[i][z]) === 0 ? '' : parseInt(userInput[i][z]) } 
                                                         type= 'text' 
                                                         onChange={ (e) => maxLengthInput(e) }
                                                         onKeyDown = { (e) => delCell(e) }
                                                         style={{ color: easyColorSelector(i, z) }}
                                                     /> 
+                                                            : <div className={`${i+1} ${z+1} mobileInPut`} onClick={ (e) => setMobileCellActive(e) } style={{ color: easyColorSelector(i, z) }}>
+                                                                { parseInt(userInput[i][z]) === 0 ? '' : parseInt(userInput[i][z]) }
+                                                            </div>
                                                 }            
-                                        </td>
+                                        </div>
                                     )
                                 })}
-                            </tr>
+                            </div>
                         )
                     })}
-                                        
-                </tbody>
-            </table> 
+            </div> 
         )
     };
 
-    const easyColorSelector = (i, z) => {                           // for the light players =)
-        if (isEasyMode && parseInt(userInput[i][z]) !== gameTable[i][z]) {
-            return 'red'
-        } else { return 'black' };
+    // for the light players =)
+    const easyColorSelector = (i, z) => { 
+        if ( !isMobile ) {
+            if (isEasyMode && parseInt(userInput[i][z]) !== gameTable[i][z]) {
+                return 'red'
+            } else { return 'black' };
+        }         
+        else {
+            if (isEasyMode && parseInt(userInput[i][z]) !== gameTable[i][z]) {
+                return 'black'
+            } else { return 'red' };
+        }                 
+        
     };
 
     // inspect users input and place in check table
@@ -382,7 +458,7 @@ export default function GameCalc() {
         if ( user.match(numbers) !== null ) {
             uInput[i][j] = parseInt(user);
             setUserInput(uInput => [...uInput]);                   // !!!! this is how you update an array hook MF !!!!
-
+            if ( fullTableShow ) { checkEveryInput(); }
         }
         else {
             console.log('Not a Number');
@@ -399,41 +475,51 @@ export default function GameCalc() {
         let i = parseInt(e.target.className.slice(0, 1));
         let j = parseInt(e.target.className.slice(1, 2));
         if (keyInput === 'Delete' || keyInput === 'Backspace') {
-            console.log(keyInput);
             uInput[i][j] = 0;
             setUserInput(uInput => [...uInput]);
         }
+    };
+
+    // activte mobile cell 
+    const setMobileCellActive = (event) => {
+        // let one = event.target.classList[0];
+        // let two = event.target.classList[1];
+        uInput = userInput;
+
+        let activeCell = document.querySelector('.active');
+        if ( activeCell !== null ) {
+            activeCell.classList.remove('active');
+        };
+        event.target.classList.add('active');
     };
 
     // create empty table for before game start
     const emptyTable = () => {
         createEmptyTable();
     return (
-        <table style={{ width: '30rem', height: '20rem' }}>
-            <tbody>
+        <div className='emptyTableStyle'>
                 { temp_table.map((ele,i) =>{
                     return (
-                        <tr key={ `tr_${i}` } className={ `tr_${i}` } style={{ width: '3rem', height: '3rem', border: '1px solid black' }}>             {/* if row 3 && 6 add top line  */}
+                        <div className={`rows row_${ i+1 }`} key={ `tr_${i}` } >             {/* if row 3 && 6 add top line  */}
                             { ele.map((el, ie) => {
                                 return (
-                                    <td key={ `td_${ie}`} className={ `tr_${i}` } style={{ width: '3rem', height: '3rem', border: '1px solid black' }}> {/* if col 3 && 6 add right line  */}
+                                    <div className={`cells cell_${i+1}${ie+1}`} key={ `td_${ie}`}> {/* if col 3 && 6 add right line  */}
                                         {}
-                                    </td>
+                                    </div>
                                 )
                                 
                             })}
-                        </tr>
+                        </div>
                     )
                 })}
-            </tbody>
-        </table>
+        </div>
     )
 };
 
 // populate empty table
 const createEmptyTable = () => {
-    let table = temp_table;
-    let arr = showNumArr;
+    // let table = temp_table;
+    // let arr = showNumArr;
     for(let x=0; x<9; x++) {
         for(let y=0;y<9;y++) {
             temp_table[x][y] = ' ';  
@@ -443,8 +529,6 @@ const createEmptyTable = () => {
 };
 
   return (
-    <div>
-        { fullTableShow ? tableBase() : emptyTable() }
-    </div>
+        fullTableShow ? tableBase() : emptyTable()
   )
-}
+};

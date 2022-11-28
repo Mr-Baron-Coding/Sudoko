@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+import React, { useEffect } from 'react';
+
 import './App.css';
 
+import GameDisplay from './Sudoko/GameDisplay';
+
+import { useMediaQuery } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { changeScreenSize } from './Sudoko/features/mobileSlice.js';
+ 
+
 function App() {
+  const dispatch = useDispatch();
+  const matches = useMediaQuery('(max-width:1000px)');
+
+  useEffect(() => {
+    dispatch(changeScreenSize(matches));
+
+  }, [matches, dispatch]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App">            
+      <GameDisplay />
     </div>
   );
-}
+};
 
 export default App;
