@@ -9,7 +9,6 @@ import './CompStyle.css';
 export default function BottomMenuField() {
     const dispatch = useDispatch();
     const tempDiff = useSelector((state) => state.table.temp_Diff);
-    const userMess = useSelector((state) => state.messages.valueBottom);
     
     const startNewGame = () => {
         dispatch(isGameEnd(false));

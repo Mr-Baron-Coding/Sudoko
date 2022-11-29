@@ -104,7 +104,6 @@
 @media only screen and ( min-width: 1001px ) {
     /* main container */
     .sudokoCompStyle {
-        border: 3px solid red;
         height: 90%;
         display: grid;
         position: relative;

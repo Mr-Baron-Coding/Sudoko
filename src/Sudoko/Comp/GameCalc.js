@@ -20,7 +20,7 @@ export default function GameCalc() {
 
     const [gameTable, setGameTable] = useState([]);             // game table to be filled
     const [userInput, setUserInput] = useState([]);             // users input log
-    const [showArr,setShowArr]  = useState([]);                 // array of display
+    const [showArr,setShowArr]  = useState([]);                 // array of displayed cells
 
     let checkNumbers = [1,2,3,4,5,6,7,8,9];                     // global var for row check
     let temp_table = [[],[],[],[],[],[],[],[],[]];              // global var for table check
@@ -69,9 +69,15 @@ export default function GameCalc() {
             
 
         })});
-        // if all cells filled correctly - end game else 
+        // if all cells filled correctly - end game else check if user filled correctly but the auto version
         counter === 81 ? finishGame() : continueGame();
     };
+    const checkForVariantions = () => {
+        // check rows
+        
+        // check columns
+        // chck 3*3 boxes
+    }
     // player complited the game!
     const finishGame = () => {
         dispatch(gameWon(true));
